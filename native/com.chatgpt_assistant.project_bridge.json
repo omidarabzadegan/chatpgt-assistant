@@ -1,0 +1,9 @@
+{
+  "name": "com.chatgpt_assistant.project_bridge",
+  "description": "ChatGPT Assistant Project Bridge",
+  "path": "ProjectBridge.agent.exe",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://migkgobbooelepdmdncelhipfndpbhda/"
+  ]
+}

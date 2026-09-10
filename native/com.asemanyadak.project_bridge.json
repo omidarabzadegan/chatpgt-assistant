@@ -1,0 +1,9 @@
+{
+  "name": "com.asemanyadak.project_bridge",
+  "description": "Legacy Project Bridge compatibility host",
+  "path": "ProjectBridge.agent.exe",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://migkgobbooelepdmdncelhipfndpbhda/"
+  ]
+}

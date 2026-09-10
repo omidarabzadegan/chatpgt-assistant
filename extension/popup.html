@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>دستیار هوشمند کدنویسی</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="panel">
+    <header class="hero">
+      <div class="brand">
+        <img src="icons/icon-48.png" alt="" width="42" height="42">
+        <div><p class="eyebrow">AI CODING ASSISTANT</p><h1>دستیار هوشمند کدنویسی</h1></div>
+      </div>
+      <label class="master-switch" for="bridgeEnabled">
+        <span class="master-switch__copy">
+          <strong id="powerTitle">پل پروژه روشن است</strong>
+          <small id="powerHint">ChatGPT به پروژه فعال دسترسی دارد</small>
+        </span>
+        <input id="bridgeEnabled" type="checkbox" role="switch" aria-describedby="powerHint">
+        <span class="switch" aria-hidden="true"><span></span></span>
+      </label>
+    </header>
+
+    <div id="connectionStatus" class="connection connection--pending" role="status" aria-live="polite">
+      <span class="status-dot"></span><span id="connectionText">در حال بررسی اتصال…</span>
+    </div>
+
+    <section class="card project-card" aria-labelledby="projectHeading">
+      <div class="section-heading">
+        <div>
+          <span class="section-heading__icon" aria-hidden="true">⌁</span>
+          <div><h2 id="projectHeading">پروژه فعال</h2><p>همه عملیات فقط داخل این پوشه انجام می‌شود</p></div>
+        </div>
+        <div class="project-actions">
+          <button id="removeProject" class="icon-button icon-button--danger" type="button" title="حذف پروژه از لیست" aria-label="حذف پروژه از لیست"><span aria-hidden="true">−</span></button>
+          <button id="addProject" class="icon-button" type="button" title="افزودن پروژه" aria-label="افزودن پروژه"><span aria-hidden="true">＋</span></button>
+        </div>
+      </div>
+      <select id="projectSelect" aria-label="انتخاب پروژه فعال"></select>
+      <div class="path-row"><span aria-hidden="true">↳</span><strong id="projectRoot">—</strong></div>
+      <small class="project-remove-hint">حذف پروژه فقط آن را از Project Bridge پاک می‌کند و فایل‌های روی سیستم حذف نمی‌شوند.</small>
+    </section>
+
+    <section class="card capability-card" aria-label="دسترسی اجرای فرمان">
+      <label class="execution-permission" for="localConnectionEnabled">
+        <span class="capability__icon" aria-hidden="true">⌂</span>
+        <span class="execution-permission__copy">
+          <strong>اتصال محلی</strong>
+          <small id="localConnectionHint">دسترسی به فایل‌ها و فرمان‌های پروژه روی کامپیوتر</small>
+        </span>
+        <input id="localConnectionEnabled" type="checkbox" role="switch" aria-describedby="localConnectionHint">
+        <span class="switch switch--small" aria-hidden="true"><span></span></span>
+      </label>
+      <label class="execution-permission" for="allowExecution">
+        <span class="capability__icon capability__icon--terminal" aria-hidden="true">›_</span>
+        <span class="execution-permission__copy">
+          <strong>دسترسی Console محلی</strong>
+          <small id="executionHint">اجرای فرمان‌های مجاز روی سیستم</small>
+        </span>
+        <input id="allowExecution" type="checkbox" role="switch" aria-describedby="executionHint">
+        <span class="switch switch--small" aria-hidden="true"><span></span></span>
+      </label>
+      <label class="execution-permission execution-permission--server" for="allowServerExecution">
+        <span class="capability__icon" aria-hidden="true">⇄</span>
+        <span class="execution-permission__copy">
+          <strong>اتصال به سرور (SSH)</strong>
+          <small id="serverExecutionHint">خاموش: هیچ بررسی یا فرمانی روی سرور اجرا نمی‌شود</small>
+        </span>
+        <input id="allowServerExecution" type="checkbox" role="switch" aria-describedby="serverExecutionHint">
+        <span class="switch switch--small" aria-hidden="true"><span></span></span>
+      </label>
+    </section>
+
+    <section class="card server-card" aria-labelledby="serverHeading">
+      <div class="section-heading">
+        <div>
+          <span class="section-heading__icon" aria-hidden="true">⌘</span>
+          <div><h2 id="serverHeading">سرورهای SSH</h2><p>پروفایل امن برای دسترسی ChatGPT به سرور</p></div>
+        </div>
+        <button id="newServer" class="icon-button" type="button" title="سرور جدید">＋</button>
+      </div>
+      <select id="serverSelect" aria-label="انتخاب سرور پروژه فعال"></select>
+      <button id="bindProjectServer" type="button" class="secondary">انتخاب برای پروژه فعال</button>
+      <div id="serverForm" class="server-form" hidden>
+        <div class="server-grid">
+          <label><span>شناسه</span><input id="serverId" placeholder="production" dir="ltr"></label>
+          <label><span>Host</span><input id="serverHost" placeholder="example.com" dir="ltr"></label>
+          <label><span>User</span><input id="serverUser" placeholder="deploy" dir="ltr"></label>
+          <label><span>Port</span><input id="serverPort" type="number" min="1" max="65535" value="22" dir="ltr"></label>
+        </div>
+        <label class="server-field"><span>Working directory</span><input id="serverWorkingDirectory" placeholder="/var/www/app/current" dir="ltr"></label>
+        <div class="key-row">
+          <button id="chooseSshKey" type="button" class="secondary">انتخاب SSH Key</button>
+          <small id="sshKeyName">کلیدی انتخاب نشده</small>
+        </div>
+        <label class="server-field"><span>فرمان‌های مجاز؛ هر خط یک Prefix</span><textarea id="serverCommands" rows="4" dir="ltr" placeholder="php artisan&#10;git status&#10;pwd"></textarea></label>
+        <div class="server-actions">
+          <button id="saveServer" type="button">ذخیره سرور</button>
+          <button id="testServer" type="button" class="secondary">تست اتصال</button>
+          <button id="removeServer" type="button" class="danger-button">حذف</button>
+        </div>
+      </div>
+      <small class="project-remove-hint">محتوای SSH Key هرگز به ChatGPT ارسال نمی‌شود.</small>
+    </section>
+
+    <section class="card settings" aria-labelledby="settingsHeading">
+      <h2 id="settingsHeading">اتوماسیون</h2>
+      <label class="setting-row">
+        <span><strong>ارسال هوشمند زمینه</strong><small>کد مرتبط را هنگام نیاز پیدا می‌کند</small></span>
+        <input id="autoContext" type="checkbox" role="switch"><span class="switch switch--small" aria-hidden="true"><span></span></span>
+      </label>
+      <label class="setting-row">
+        <span><strong>اجرای خودکار ابزارها</strong><small>خواندن، جست‌وجو و تست بدون کلیک اضافه</small></span>
+        <input id="autoTools" type="checkbox" role="switch"><span class="switch switch--small" aria-hidden="true"><span></span></span>
+      </label>
+      <label class="setting-row">
+        <span><strong>اجازه ساخت و ویرایش</strong><small>فایل‌سازی و Patch با امکان بازگردانی</small></span>
+        <input id="autoApply" type="checkbox" role="switch"><span class="switch switch--small" aria-hidden="true"><span></span></span>
+      </label>
+    </section>
+
+    <section class="card history" aria-labelledby="historyHeading">
+      <div class="history-heading"><h2 id="historyHeading">تاریخچه پروژه</h2><button id="refreshHistory" type="button">تازه‌سازی</button></div>
+      <p class="history-help">قبل از هر ساخت یا ویرایش فایل، یک مرحله ذخیره می‌شود. بازگردانی مستقل از Git است.</p>
+      <p id="historySummary" role="status" aria-live="polite"></p>
+      <p id="historyWarning" class="history-warning" hidden>برای عملکرد بهتر تاریخچه را خالی کنید.</p>
+      <div id="historyList" class="history-list"></div>
+      <button id="clearHistory" type="button" class="secondary" disabled>پاک کردن تاریخچه</button>
+    </section>
+    <pre id="output" class="output" hidden tabindex="0"></pre>
+    <footer>
+      <span>v1.7</span>
+      <!-- Required original-author notice: see LICENSE. -->
+      <span id="developerCredit" class="developer-credit"></span>
+    </footer>
+  </main>
+  <script src="attribution.js"></script>
+  <script src="popup.js"></script>
+  <script src="server-manager.js"></script>
+</body>
+</html>

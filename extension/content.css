@@ -1,0 +1,831 @@
+#apb-status.apb-status {
+  position: fixed;
+  z-index: 2147483646;
+  right: 4px;
+  bottom: 2px;
+  color: #f8fafc;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  direction: rtl;
+  user-select: none;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+#apb-status .apb-status__scene {
+  position: relative;
+  width: 460px;
+  height: 300px;
+  max-width: calc(100vw - 8px);
+}
+
+#apb-status .apb-status__speech-stack {
+  position: absolute;
+  right: 94px;
+  bottom: 174px;
+  display: flex;
+  width: min(330px, calc(100vw - 118px));
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  direction: rtl;
+  z-index: 3;
+}
+
+#apb-status .apb-status__pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  max-width: 330px;
+  padding: 7px 15px 7px 17px;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 17px 17px 5px 17px;
+  background:
+    linear-gradient(135deg, rgba(30, 27, 75, 0.96), rgba(15, 23, 42, 0.97));
+  box-shadow:
+    0 14px 38px rgba(2, 6, 23, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  line-height: 1.3;
+  transform-origin: 100% 100%;
+  transition:
+    opacity 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+  animation: apb-bubble-breathe 4.8s ease-in-out infinite;
+}
+
+#apb-status .apb-status__pill::after {
+  position: absolute;
+  right: 24px;
+  bottom: -10px;
+  width: 16px;
+  height: 16px;
+  border-right: 1px solid rgba(167, 139, 250, 0.24);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.24);
+  background: #151733;
+  content: "";
+  transform: rotate(45deg);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+#apb-status .apb-status__activity {
+  position: relative;
+  width: 100%;
+  padding: 13px 15px 14px;
+  overflow: visible;
+  border: 1px solid rgba(129, 140, 248, 0.34);
+  border-radius: 19px 19px 6px 19px;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(139, 92, 246, 0.16), transparent 34%),
+    linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(26, 25, 58, 0.98));
+  box-shadow:
+    0 18px 46px rgba(2, 6, 23, 0.4),
+    0 0 34px rgba(99, 102, 241, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  line-height: 1.7;
+  transform-origin: 100% 100%;
+  animation: apb-activity-in 320ms cubic-bezier(0.2, 0.85, 0.25, 1.15);
+}
+
+#apb-status .apb-status__activity::after {
+  position: absolute;
+  right: 28px;
+  bottom: -11px;
+  width: 18px;
+  height: 18px;
+  border-right: 1px solid rgba(129, 140, 248, 0.3);
+  border-bottom: 1px solid rgba(129, 140, 248, 0.3);
+  background: #1a193a;
+  content: "";
+  transform: rotate(45deg);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+#apb-status .apb-status__activity[hidden] {
+  display: none;
+}
+
+#apb-status .apb-status__activity-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+  color: #c4b5fd;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+#apb-status .apb-status__activity-icon {
+  display: inline-block;
+  color: #f9a8d4;
+  font-size: 12px;
+  animation: apb-spark-spin 3s ease-in-out infinite;
+}
+
+#apb-status .apb-status__activity-text {
+  color: #f8fafc;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+}
+
+#apb-status .apb-status__activity[data-tone="result"] {
+  border-color: rgba(52, 211, 153, 0.32);
+  background:
+    radial-gradient(circle at 88% 10%, rgba(52, 211, 153, 0.12), transparent 34%),
+    linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(20, 45, 46, 0.98));
+}
+
+#apb-status .apb-status__activity[data-tone="error"] {
+  border-color: rgba(251, 113, 133, 0.4);
+  background:
+    radial-gradient(circle at 88% 10%, rgba(251, 113, 133, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(54, 27, 42, 0.98));
+}
+
+#apb-status .apb-status__copy {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+#apb-status .apb-status__dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: #94a3b8;
+  box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.12);
+}
+
+#apb-status .apb-status__label {
+  color: #ddd6fe;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#apb-status .apb-status__pill {
+  align-self: flex-start;
+}
+
+#apb-status .apb-status__detail {
+  overflow: hidden;
+  color: #f1f5f9;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#apb-status .apb-status__server {
+  overflow: hidden;
+  max-width: 260px;
+  color: #86efac;
+  font-size: 9px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#apb-status .apb-status__server[hidden] {
+  display: none;
+}
+
+#apb-status .apb-status__mascot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 118px;
+  height: 220px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  pointer-events: auto;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+  animation: apb-mascot-float 4.2s ease-in-out infinite;
+}
+
+#apb-status .apb-status__mascot-svg {
+  position: absolute;
+  inset: 0;
+  width: 118px;
+  height: 220px;
+  overflow: visible;
+  filter: drop-shadow(0 10px 14px rgba(2, 6, 23, 0.24));
+}
+
+#apb-status .apb-status__girl {
+  transform-origin: 59px 208px;
+  animation: apb-girl-breathe 3.4s ease-in-out infinite;
+}
+
+#apb-status .apb-status__sponge {
+  transform-origin: 59px 205px;
+  animation: apb-sponge-breathe 3.1s ease-in-out infinite;
+}
+
+#apb-status .apb-status__sponge-body {
+  fill: #facc15;
+  stroke: #8a6707;
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+
+#apb-status .apb-status__sponge-hole {
+  fill: #dcae17;
+  opacity: 0.7;
+}
+
+#apb-status .apb-status__sponge-eye-white,
+#apb-status .apb-status__sponge-tooth {
+  fill: #fff;
+  stroke: #172554;
+  stroke-width: 1.2;
+}
+
+#apb-status .apb-status__sponge-iris {
+  fill: #38bdf8;
+  stroke: #1e3a8a;
+  stroke-width: 1;
+}
+
+#apb-status .apb-status__sponge-pupil {
+  fill: #172554;
+}
+
+#apb-status .apb-status__sponge-eye-glint {
+  fill: #fff;
+}
+
+#apb-status .apb-status__sponge-eyes {
+  transform-origin: 59px 76px;
+  animation: apb-blink 5.2s infinite;
+}
+
+#apb-status .apb-status__sponge-brow,
+#apb-status .apb-status__sponge-nose {
+  fill: none;
+  stroke: #4d3908;
+  stroke-width: 2;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 180ms ease;
+}
+
+#apb-status .apb-status__sponge-cheek {
+  fill: #ef4444;
+  opacity: 0.4;
+}
+
+#apb-status .apb-status__sponge-mouth {
+  stroke: #5b2c16;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#apb-status .apb-status__sponge-mouth--normal,
+#apb-status .apb-status__sponge-mouth--worried,
+#apb-status .apb-status__sponge-mouth--sad {
+  fill: none;
+}
+
+#apb-status .apb-status__sponge-mouth--happy {
+  fill: #7f1d1d;
+}
+
+#apb-status .apb-status__sponge-tongue {
+  fill: #fb7185;
+}
+
+#apb-status .apb-status__sponge-tear {
+  fill: #60a5fa;
+}
+
+#apb-status .apb-status__sponge-mouth--happy,
+#apb-status .apb-status__sponge-mouth--worried,
+#apb-status .apb-status__sponge-mouth--sad,
+#apb-status .apb-status__sponge-tongue,
+#apb-status .apb-status__sponge-tear {
+  opacity: 0;
+}
+
+#apb-status .apb-status__sponge-shirt {
+  fill: #fff;
+  stroke: #cbd5e1;
+  stroke-width: 1;
+}
+
+#apb-status .apb-status__sponge-collar {
+  fill: #f8fafc;
+  stroke: #94a3b8;
+  stroke-width: 0.8;
+}
+
+#apb-status .apb-status__sponge-tie,
+#apb-status .apb-status__sponge-tie-tail {
+  fill: #ef4444;
+  stroke: #991b1b;
+  stroke-width: 0.8;
+}
+
+#apb-status .apb-status__sponge-shorts {
+  fill: #8b5e34;
+  stroke: #4b2e1d;
+  stroke-width: 1.2;
+}
+
+#apb-status .apb-status__sponge-belt {
+  fill: #3f2d20;
+}
+
+#apb-status .apb-status__sponge-arm,
+#apb-status .apb-status__sponge-leg {
+  fill: none;
+  stroke: #eab308;
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+#apb-status .apb-status__sponge-hand {
+  fill: #facc15;
+  stroke: #8a6707;
+  stroke-width: 1.2;
+}
+
+#apb-status .apb-status__sponge-sock {
+  fill: #fff;
+  stroke: #cbd5e1;
+  stroke-width: 1;
+}
+
+#apb-status .apb-status__sponge-shoe {
+  fill: #111827;
+  stroke: #020617;
+  stroke-width: 1.2;
+}
+
+#apb-status.apb-status--connected .apb-status__sponge-mouth--normal,
+#apb-status.apb-status--busy .apb-status__sponge-mouth--normal,
+#apb-status.apb-status--connecting .apb-status__sponge-mouth--normal,
+#apb-status.apb-status--stalled .apb-status__sponge-mouth--normal,
+#apb-status.apb-status--error .apb-status__sponge-mouth--normal {
+  opacity: 0;
+}
+
+#apb-status.apb-status--connected .apb-status__sponge-mouth--happy,
+#apb-status.apb-status--connected .apb-status__sponge-tongue {
+  opacity: 1;
+}
+
+#apb-status.apb-status--busy .apb-status__sponge-mouth--happy,
+#apb-status.apb-status--connecting .apb-status__sponge-mouth--happy {
+  opacity: 1;
+}
+
+#apb-status.apb-status--busy .apb-status__sponge-arm--right,
+#apb-status.apb-status--connecting .apb-status__sponge-arm--right {
+  animation: apb-sponge-wave 0.9s ease-in-out infinite;
+}
+
+#apb-status.apb-status--stalled .apb-status__sponge-mouth--worried {
+  opacity: 1;
+}
+
+#apb-status.apb-status--error .apb-status__sponge-mouth--sad,
+#apb-status.apb-status--error .apb-status__sponge-tear {
+  opacity: 1;
+}
+
+#apb-status.apb-status--stalled .apb-status__sponge-brow--left,
+#apb-status.apb-status--error .apb-status__sponge-brow--left {
+  transform: rotate(18deg) translateY(2px);
+}
+
+#apb-status.apb-status--stalled .apb-status__sponge-brow--right,
+#apb-status.apb-status--error .apb-status__sponge-brow--right {
+  transform: rotate(-18deg) translateY(2px);
+}
+
+#apb-status.apb-status--error .apb-status__sponge-cheek {
+  opacity: 0.18;
+}
+
+#apb-status .apb-status__shadow {
+  fill: rgba(15, 23, 42, 0.26);
+  transform-origin: 59px 211px;
+  animation: apb-shadow-breathe 4.2s ease-in-out infinite;
+}
+
+#apb-status .apb-status__body-back {
+  fill: #312e81;
+}
+
+#apb-status .apb-status__hoodie {
+  fill: #4f46e5;
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 1;
+}
+
+#apb-status .apb-status__neck,
+#apb-status .apb-status__ear,
+#apb-status .apb-status__hand {
+  fill: #ffd6c9;
+}
+
+#apb-status .apb-status__face {
+  fill: #ffe1d6;
+  stroke: rgba(117, 75, 81, 0.12);
+  stroke-width: 1;
+}
+
+#apb-status .apb-status__hair-back {
+  fill: #252044;
+}
+
+#apb-status .apb-status__hair-front {
+  fill: #322a55;
+}
+
+#apb-status .apb-status__hair-front--left {
+  transform-origin: 56px 20px;
+  animation: apb-hair-sway 3.7s ease-in-out infinite;
+}
+
+#apb-status .apb-status__hair-front--right {
+  transform-origin: 70px 22px;
+  animation: apb-hair-sway-right 4.1s ease-in-out infinite;
+}
+
+#apb-status .apb-status__eyes {
+  transform-origin: 59px 56px;
+  animation: apb-blink 5.2s infinite;
+}
+
+#apb-status .apb-status__eye {
+  fill: #4338ca;
+}
+
+#apb-status .apb-status__eye-glint {
+  fill: #ffffff;
+}
+
+#apb-status .apb-status__blush {
+  fill: rgba(251, 113, 133, 0.24);
+}
+
+#apb-status .apb-status__mouth {
+  fill: none;
+  stroke: #a35f72;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+#apb-status .apb-status__collar {
+  fill: #eef2ff;
+}
+
+#apb-status .apb-status__arm {
+  fill: #4338ca;
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+#apb-status .apb-status__arm--right {
+  animation: apb-wave 5.5s ease-in-out infinite;
+}
+
+#apb-status .apb-status__spark {
+  position: absolute;
+  z-index: 2;
+  color: #c4b5fd;
+  text-shadow: 0 0 12px rgba(196, 181, 253, 0.6);
+}
+
+#apb-status .apb-status__spark--one {
+  top: 18px;
+  left: 4px;
+  font-size: 14px;
+  animation: apb-spark-one 3.3s ease-in-out infinite;
+}
+
+#apb-status .apb-status__spark--two {
+  top: 48px;
+  right: 1px;
+  color: #f9a8d4;
+  font-size: 11px;
+  animation: apb-spark-two 4.1s ease-in-out infinite;
+}
+
+#apb-status .apb-status__top {
+  fill: #6d5dfc;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1;
+}
+
+#apb-status .apb-status__top-trim {
+  fill: #f0abfc;
+}
+
+#apb-status .apb-status__midriff {
+  fill: #ffd6c9;
+}
+
+#apb-status .apb-status__navel {
+  fill: #c9877f;
+  opacity: 0.7;
+}
+
+#apb-status .apb-status__waist {
+  fill: #352f62;
+}
+
+#apb-status .apb-status__skirt {
+  fill: #2f2a56;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1;
+}
+
+#apb-status .apb-status__skirt-fold {
+  fill: none;
+  stroke: rgba(196, 181, 253, 0.26);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+#apb-status .apb-status__leg,
+#apb-status .apb-status__arm {
+  fill: #ffd6c9;
+}
+
+#apb-status .apb-status__shoe {
+  fill: #211d3b;
+}
+
+#apb-status.apb-status--connected .apb-status__pill {
+  border-color: rgba(52, 211, 153, 0.28);
+}
+
+#apb-status.apb-status--connected .apb-status__dot {
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.14);
+}
+
+#apb-status.apb-status--busy .apb-status__dot,
+#apb-status.apb-status--connecting .apb-status__dot {
+  background: #38bdf8;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.14);
+  animation: apb-pulse 1.2s ease-in-out infinite;
+}
+
+#apb-status.apb-status--busy .apb-status__mascot {
+  animation: apb-mascot-working 1.7s ease-in-out infinite;
+}
+
+#apb-status.apb-status--busy .apb-status__arm--right,
+#apb-status.apb-status--connecting .apb-status__arm--right {
+  animation: apb-wave-working 1.15s ease-in-out infinite;
+}
+
+#apb-status.apb-status--busy .apb-status__spark {
+  animation-duration: 1.5s;
+}
+
+#apb-status.apb-status--stalled .apb-status__pill {
+  border-color: rgba(251, 191, 36, 0.48);
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.12);
+}
+
+#apb-status.apb-status--stalled .apb-status__dot {
+  background: #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.16);
+  animation: apb-stalled-pulse 0.9s ease-in-out infinite;
+}
+
+#apb-status.apb-status--stalled .apb-status__mascot {
+  animation: apb-mascot-stalled 1.2s ease-in-out infinite;
+}
+
+#apb-status.apb-status--stalled .apb-status__mascot::after {
+  content: "کلیک کن";
+  position: absolute;
+  top: 4px;
+  right: -5px;
+  padding: 4px 7px;
+  border: 1px solid rgba(251, 191, 36, 0.34);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #fde68a;
+  font-size: 9px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.24);
+}
+
+#apb-status.apb-status--error .apb-status__pill {
+  border-color: rgba(251, 113, 133, 0.34);
+}
+
+#apb-status.apb-status--error .apb-status__dot {
+  background: #fb7185;
+  box-shadow: 0 0 0 4px rgba(251, 113, 133, 0.14);
+}
+
+#apb-status.apb-status--error .apb-status__mascot {
+  animation: apb-mascot-error 0.42s ease-in-out 2;
+}
+
+#apb-status.apb-status--error .apb-status__mouth {
+  d: path("M55 71c2.5-2 5.5-2 8 0");
+}
+
+#apb-status.apb-status--disabled {
+  opacity: 0.72;
+}
+
+@keyframes apb-pulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.72; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes apb-stalled-pulse {
+  0%, 100% {
+    transform: scale(0.88);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1.14);
+    opacity: 1;
+  }
+}
+
+@keyframes apb-mascot-stalled {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-2px) rotate(-1deg); }
+  50% { transform: translateX(0) rotate(0deg); }
+  75% { transform: translateX(2px) rotate(1deg); }
+}
+
+@keyframes apb-activity-in {
+  from {
+    opacity: 0;
+    transform: translate(14px, 7px) scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes apb-bubble-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+}
+
+@keyframes apb-mascot-float {
+  0%, 100% { transform: translateY(0) rotate(-0.4deg); }
+  50% { transform: translateY(-5px) rotate(0.8deg); }
+}
+
+@keyframes apb-mascot-working {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-4px) rotate(1.2deg); }
+}
+
+@keyframes apb-mascot-error {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px) rotate(-1deg); }
+  75% { transform: translateX(3px) rotate(1deg); }
+}
+
+@keyframes apb-sponge-breathe {
+  0%, 100% { transform: translateY(0) scaleX(1.1) scaleY(0.76); }
+  50% { transform: translateY(-2px) scaleX(1.1) scaleY(0.78); }
+}
+
+@keyframes apb-sponge-wave {
+  0%, 100% { transform: rotate(0deg); }
+  35% { transform: rotate(-18deg); }
+  70% { transform: rotate(12deg); }
+}
+
+@keyframes apb-girl-breathe {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.008); }
+}
+
+@keyframes apb-shadow-breathe {
+  0%, 100% { transform: scaleX(1); opacity: 0.26; }
+  50% { transform: scaleX(0.88); opacity: 0.18; }
+}
+
+@keyframes apb-hair-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-1.8deg); }
+}
+
+@keyframes apb-hair-sway-right {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes apb-blink {
+  0%, 43%, 45%, 83%, 85%, 100% { transform: scaleY(1); }
+  44%, 84% { transform: scaleY(0.08); }
+}
+
+@keyframes apb-wave {
+  0%, 72%, 100% { transform: rotate(0deg); }
+  78% { transform: rotate(-9deg); }
+  84% { transform: rotate(4deg); }
+  90% { transform: rotate(-7deg); }
+}
+
+@keyframes apb-wave-working {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(-12deg); }
+}
+
+@keyframes apb-spark-one {
+  0%, 100% { opacity: 0.35; transform: translateY(0) scale(0.82) rotate(0); }
+  50% { opacity: 1; transform: translateY(-6px) scale(1.08) rotate(20deg); }
+}
+
+@keyframes apb-spark-two {
+  0%, 100% { opacity: 0.25; transform: translate(0, 0) scale(0.85); }
+  50% { opacity: 0.9; transform: translate(3px, -5px) scale(1.08); }
+}
+
+@keyframes apb-spark-spin {
+  0%, 100% { opacity: 0.7; transform: rotate(0deg) scale(0.9); }
+  50% { opacity: 1; transform: rotate(35deg) scale(1.12); }
+}
+
+@media (max-width: 640px) {
+  #apb-status.apb-status {
+    right: 2px;
+    bottom: 2px;
+    transform: scale(0.86);
+    transform-origin: bottom right;
+  }
+
+  #apb-status .apb-status__scene {
+    width: 385px;
+    height: 270px;
+  }
+
+  #apb-status .apb-status__speech-stack {
+    right: 84px;
+    bottom: 158px;
+    width: min(265px, calc(100vw - 108px));
+    margin: 0;
+  }
+
+  #apb-status .apb-status__activity {
+    padding: 11px 12px 12px;
+  }
+
+  #apb-status .apb-status__detail {
+    max-width: 145px;
+  }
+
+  #apb-status .apb-status__server {
+    max-width: 145px;
+  }
+
+  #apb-status .apb-status__mascot {
+    width: 106px;
+    height: 198px;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+  }
+
+  #apb-status .apb-status__mascot-svg {
+    width: 106px;
+    height: 198px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #apb-status *,
+  #apb-status *::before,
+  #apb-status *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

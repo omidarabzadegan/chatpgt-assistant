@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "دستیار چت جی پی تی",
+  "version": "1.7.0",
+  "description": "اتصال امن پروژه محلی به ChatGPT برای خواندن، ساخت فایل، ویرایش، تست و بازگردانی تغییرات.",
+  "minimum_chrome_version": "120",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsXxBoZJ27zmoK9fG1s+28dzuojyjfapadAScojjaDxZrsr9tiSgWwnH+LwHMQh8VCBJZwtP2CzTkzQgBzOIoUAe3RLtpAKcFTITo3kfTU91U5K3rZSVrL1jMCSoAVDvlTctnnML+OJprXI8pUAuI8LHx8zB5FWL61CrE1bpe6HZ2FCejot1H+kbUZ/nfff3+Bd84Fi2xZfuAkui03DVg/SD/kBpiJ9zIO8TAJI2Ib/3jjovCjVk38UtAPoA/raqyotw69G9nBmcKfk2QoirYTacYPynhSNJiGq1CR9D+y1Wv415zo7lxgxk1fLIIsaF5w8vyQoVdAUKSq95xocsw9QIDAQAB",
+  "permissions": ["nativeMessaging", "storage"],
+  "host_permissions": ["https://chatgpt.com/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "دستیار چت جی پی تی",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

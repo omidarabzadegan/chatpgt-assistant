@@ -1,0 +1,47 @@
+# Local runtime/config data
+native/config.json
+data/
+backup_workspace_*/
+graphify-out/
+
+# Packaged/exported workspace artifacts
+project_bridge_workspace_package/
+*.lnk
+chrome-extensions-debug.png
+
+# Build outputs
+native/bin/
+native/obj/
+*.exe
+*.dll
+*.pdb
+
+# Test/generated state
+tests/test-data/
+tests/test-config.generated.json
+tests/fixture/
+
+# Common dependency/cache folders
+node_modules/
+vendor/
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# Private machine state and release outputs
+native/generated/
+native/data/
+release/
+*.pem
+*.key
+*.pfx
+*.p12
+*.log
+.ssh/
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+known_hosts
+authorized_keys
